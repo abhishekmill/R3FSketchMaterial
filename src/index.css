@@ -1,0 +1,192 @@
+:root {
+  --ink: #101a91;
+  --header-height: 56px;
+  --font-block: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Header: name on the left, profile links on the right, floating over the scene */
+.header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 2;
+  height: var(--header-height);
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--ink);
+  pointer-events: none;   /* let drags reach the canvas; links opt back in */
+}
+.header-name {
+  font: 500 18px/1.2 var(--font-block);
+  letter-spacing: 0.01em;
+}
+.header-author {
+  opacity: 0.7;
+}
+@media (max-width: 520px) {
+  .header-author {
+    display: none;   /* not enough room next to the icons on phones */
+  }
+}
+.header-links {
+  display: flex;
+  gap: 16px;
+}
+.header-links a {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  color: inherit;
+  font-size: 20px;
+  border-radius: 4px;
+  pointer-events: auto;
+}
+.header-links a:hover {
+  opacity: 0.65;
+}
+.header-links a:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* Bottom bar: drawing tools and the Wash out / Reveal toggle, centred */
+.bottom-bar {
+  position: fixed;
+  left: 50%;
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: max-content;
+  max-width: calc(100vw - 32px);
+}
+.tool-group {
+  display: flex;
+  padding: 3px;
+  background: rgba(243, 241, 236, 0.85);
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+}
+.tool-button {
+  padding: 7px 12px;
+  font: 700 12px/1 var(--font-block);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: none;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.tool-button:hover {
+  background: rgba(16, 26, 145, 0.08);
+}
+.tool-button[aria-pressed='true'] {
+  color: #f3f1ec;
+  background: var(--ink);
+}
+.tool-button:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+.effect-button {
+  min-width: 128px;
+  padding: 10px 22px;
+  font: 700 15px/1 var(--font-block);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: rgba(243, 241, 236, 0.85);
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  cursor: pointer;
+}
+.effect-button:hover {
+  background: rgba(16, 26, 145, 0.08);
+}
+.effect-button:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+/* Asset credits, bottom-left */
+.credits {
+  position: fixed;
+  left: 16px;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  z-index: 2;
+  max-width: calc(50% - 270px);   /* stays clear of the centred bottom bar on wide screens */
+  margin: 0;
+  font: 400 11px/1.4 var(--font-block);
+  color: var(--ink);
+  opacity: 0.75;
+}
+.credits a {
+  color: inherit;
+}
+/* narrower screens: credits centred underneath the bottom bar instead of beside it */
+@media (max-width: 1000px) {
+  .credits {
+    left: 16px;
+    right: 16px;
+    bottom: calc(6px + env(safe-area-inset-bottom, 0px));
+    max-width: none;
+    text-align: center;
+  }
+  .bottom-bar {
+    bottom: calc(30px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* Leva panel sits below the header instead of over it */
+.leva-wrap {
+  position: fixed;
+  top: calc(var(--header-height) + 8px);
+  right: 16px;
+  z-index: 3;
+  width: min(300px, calc(100vw - 32px));
+  max-height: calc(100vh - var(--header-height) - 24px);
+  overflow-y: auto;
+}
+
+/* Loader: white screen with a black progress line, fades out once everything has loaded */
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  background: #fff;
+  transition: opacity 0.6s ease;
+}
+.loader--done {
+  opacity: 0;
+  pointer-events: none;
+}
+.loader-track {
+  width: min(240px, 60vw);
+  height: 2px;
+  background: #e6e6e6;
+  overflow: hidden;
+}
+.loader-line {
+  height: 100%;
+  background: #000;
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}

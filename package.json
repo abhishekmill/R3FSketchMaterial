@@ -1,0 +1,27 @@
+{
+  "name": "r3f-sketch-material",
+  "private": true,
+  "version": "0.0.0",
+  "description": "A hand-drawn ballpoint sketch material for React Three Fiber",
+  "author": "Abhishek Verma",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@react-three/drei": "^10.7.9",
+    "@react-three/fiber": "^9.8.1",
+    "leva": "^0.10.1",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "react-icons": "^5.7.0",
+    "three": "^0.186.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.1.1",
+    "vite": "^8.3.2"
+  }
+}
